@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interne Tickets</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <section class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <div class="brand auth-brand"><div class="brand-mark">T</div><div><strong>TicketDesk</strong><span>Interner Arbeitsbereich</span></div></div>
+      <div id="loginPanel">
+        <p class="eyebrow">Sichere Anmeldung</p>
+        <h1>Willkommen zurück</h1>
+        <p class="auth-subtitle">Melde dich an, um auf deinen internen Ticket-Arbeitsbereich zuzugreifen.</p>
+        <form id="loginForm">
+          <div class="form-field"><label for="loginUsername">Benutzername</label><input id="loginUsername" autocomplete="username" required></div>
+          <div class="form-field"><label for="loginPassword">Passwort</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+          <p class="form-error hidden" id="loginError"></p>
+          <button class="button button-primary auth-submit" type="submit">Anmelden</button>
+        </form>
+        <p class="auth-note">Interner Arbeitsbereich · Nur für autorisierte Nutzer</p>
+      </div>
+      <div id="changePasswordPanel" class="hidden">
+        <p class="eyebrow">Erste Anmeldung</p>
+        <h1>Passwort festlegen</h1>
+        <p class="auth-subtitle">Ersetze aus Sicherheitsgründen das vorläufige Admin-Passwort, bevor du fortfährst.</p>
+        <form id="changePasswordForm">
+          <div class="form-field"><label for="newPassword">Neues Passwort</label><input id="newPassword" type="password" minlength="8" autocomplete="new-password" required><small class="field-hint">Verwende mindestens 8 Zeichen.</small></div>
+          <div class="form-field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required></div>
+          <p class="form-error hidden" id="passwordError"></p>
+          <button class="button button-primary auth-submit" type="submit">Passwort speichern</button>
+        </form>
+      </div>
+    </div>
+  </section>
+  <div class="app-shell hidden" id="appShell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">T</div>
+        <div>
+          <strong>TicketDesk</strong>
+          <span>Interner Arbeitsbereich</span>
+        </div>
+      </div>
+
+      <nav class="main-nav" aria-label="Hauptnavigation">
+        <button class="nav-item active" data-view="board"><span class="nav-icon">▦</span>Ticketübersicht</button>
+        <button class="nav-item" data-view="team"><span class="nav-icon">◉</span>Team</button>
+        <button class="nav-item admin-only" data-view="admin"><span class="nav-icon">⚙</span>Verwaltung</button>
+        <button class="nav-item" data-view="settings"><span class="nav-icon">⚙</span>Einstellungen</button>
+      </nav>
+
+      <div class="sidebar-section">
+        <div class="sidebar-label">Arbeitsbereich</div>
+        <button class="user-switcher" id="userSwitcher" type="button">
+          <span class="avatar avatar-admin">A</span>
+          <span class="user-switcher-copy"><strong id="activeUserName">Admin</strong><small id="activeUserRole">Administrator</small></span>
+          <span class="chevron">⌄</span>
+        </button>
+        <div class="user-menu hidden" id="userMenu"></div>
+        <button class="logout-button" id="logoutButton" type="button">Abmelden</button>
+      </div>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span>Nur intern</span>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs"><span>Arbeitsbereich</span><span>/</span><strong id="pageTitle">Ticketübersicht</strong></div>
+        <button class="button button-primary" id="newTicketButton" type="button"><span>+</span> Neues Ticket</button>
+      </header>
+
+      <section class="page-view" id="boardView">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">Schön, dass du da bist, <span id="greetingName">Admin</span></p>
+            <h1>Halte die Arbeit am Laufen.</h1>
+            <p class="hero-subtitle">Verfolge Anfragen, verteile Zuständigkeiten und behalte den Überblick.</p>
+          </div>
+          <div class="date-card">
+            <span id="todayLabel"></span>
+            <strong id="todayDate"></strong>
+          </div>
+        </div>
+
+        <div class="stats-grid" id="statsGrid"></div>
+
+        <div class="toolbar">
+          <div class="search-box">
+            <span>⌕</span>
+            <input id="searchInput" type="search" placeholder="Tickets suchen..." aria-label="Tickets suchen">
+          </div>
+          <div class="filter-group">
+            <label for="assigneeFilter">Zugewiesen an</label>
+            <select id="assigneeFilter">
+              <option value="all">Alle</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="categoryFilter">Kategorie</label>
+            <select id="categoryFilter">
+              <option value="all">Alle Kategorien</option>
+            </select>
+          </div>
+          <div class="filter-group">
+            <label for="statusFilter">Status</label>
+            <select id="statusFilter">
+              <option value="all">Alle Status</option>
+              <option value="open">Offen</option>
+              <option value="in-progress">In Bearbeitung</option>
+              <option value="done">Erledigt</option>
+              <option value="reminder">Erinnerung</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="board-heading">
+          <div>
+            <h2>Tickets <span class="count-pill" id="ticketCount">0</span></h2>
+            <p>Alles, woran dein Team gerade arbeitet.</p>
+          </div>
+          <button class="text-button" id="clearFiltersButton" type="button">Filter löschen</button>
+        </div>
+        <div class="ticket-list" id="ticketList"></div>
+      </section>
+
+      <section class="page-view hidden" id="teamView">
+        <div class="team-heading">
+          <p class="eyebrow">Arbeitsbereich-Zugriff</p>
+          <h1>Dein Team</h1>
+          <p class="hero-subtitle">In diesem Arbeitsbereich sind interne Konten verfügbar.</p>
+        </div>
+        <div class="team-grid" id="teamGrid"></div>
+      </section>
+      <section class="page-view hidden" id="adminView">
+        <div class="team-heading"><p class="eyebrow">Administrator-Steuerung</p><h1>Arbeitsbereich verwalten</h1><p class="hero-subtitle">Verwalte Nutzer, Teams und Zugriffsrechte für deinen internen Arbeitsbereich.</p></div>
+        <div class="admin-grid">
+          <div class="admin-panel"><div class="panel-heading"><div><h2>Nutzer</h2><p>Erstelle und verwalte Arbeitsbereich-Konten.</p></div><button class="button button-primary" id="newUserButton" type="button">+ Nutzer hinzufügen</button></div><div id="adminUsers"></div></div>
+          <div class="admin-panel"><div class="panel-heading"><div><h2>Teams & Gruppen</h2><p>Organisiere Nutzer in Arbeitsgruppen.</p></div><button class="button button-primary" id="newTeamButton" type="button">+ Team hinzufügen</button></div><div id="adminTeams"></div></div>
+        </div>
+      </section>
+      <section class="page-view hidden" id="settingsView">
+        <div class="team-heading"><p class="eyebrow">Persönliche Einstellungen</p><h1>Einstellungen</h1><p class="hero-subtitle">Passe Sprache und Darstellung an deine Bedürfnisse an.</p></div>
+        <div class="settings-grid">
+          <div class="settings-panel">
+            <div class="settings-icon">文</div>
+            <div class="settings-copy"><h2>Sprache</h2><p>Wähle die Sprache der Benutzeroberfläche.</p></div>
+            <select id="languageSelect" aria-label="Sprache"><option value="de">Deutsch</option><option value="en">English</option></select>
+          </div>
+          <div class="settings-panel">
+            <div class="settings-icon">◐</div>
+            <div class="settings-copy"><h2>Darstellung</h2><p>Wähle zwischen hellem und dunklem Modus.</p></div>
+            <div class="theme-switcher" role="group" aria-label="Darstellung"><button type="button" data-theme-choice="light">Hell</button><button type="button" data-theme-choice="dark">Dunkel</button></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+  <div class="modal-backdrop hidden" id="adminModal" role="dialog" aria-modal="true">
+    <div class="modal"><div class="modal-header"><div><p class="eyebrow" id="adminModalEyebrow">Verwaltung</p><h2 id="adminModalTitle">Nutzer hinzufügen</h2></div><button class="icon-button" id="closeAdminModalButton" type="button" aria-label="Dialog schließen">×</button></div>
+      <form id="adminForm"><input id="adminEditId" type="hidden"><div class="form-field"><label for="adminName">Name</label><input id="adminName" required maxlength="40"></div><div class="form-field"><label for="adminUsername">Benutzername</label><input id="adminUsername" required maxlength="30"></div><div class="form-field admin-password-field"><label for="adminUserPassword">Passwort <span id="passwordLabelHint">(vorläufig für neue Nutzer)</span></label><input id="adminUserPassword" type="password" minlength="8"></div><div class="form-field team-only-field hidden"><label for="adminTeamMembers">Mitglieder</label><select id="adminTeamMembers" multiple></select></div><p class="form-error hidden" id="adminError"></p><div class="modal-actions"><button class="button button-ghost" id="cancelAdminModalButton" type="button">Abbrechen</button><button class="button button-primary" type="submit">Speichern</button></div></form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="ticketModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal">
+      <div class="modal-header">
+        <div><p class="eyebrow">Ticketdetails</p><h2 id="modalTitle">Ticket erstellen</h2></div>
+        <button class="icon-button" id="closeModalButton" type="button" aria-label="Dialog schließen">×</button>
+      </div>
+      <form id="ticketForm">
+        <input id="ticketId" type="hidden">
+        <div class="form-field">
+          <label for="ticketTitle">Titel <span>*</span></label>
+          <input id="ticketTitle" name="title" type="text" maxlength="100" required placeholder="Was muss erledigt werden?">
+        </div>
+        <div class="form-field">
+          <label for="ticketDescription">Beschreibung</label>
+          <textarea id="ticketDescription" name="description" rows="4" maxlength="500" placeholder="Füge hilfreiche Details für die zuständige Person hinzu..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ticketTeam">Gruppe <span>*</span></label>
+            <select id="ticketTeam" name="teamId" required></select>
+          </div>
+          <div class="form-field">
+            <label for="ticketAssignee">Zuweisen an</label>
+            <select id="ticketAssignee" name="assignee"></select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-field">
+            <label for="ticketCategory">Kategorie</label>
+            <select id="ticketCategory" name="category">
+              <option>Kunden</option><option>IT</option><option>Social Media</option><option>Sonstiges</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="ticketPriority">Priorität</label>
+            <select id="ticketPriority" name="priority">
+              <option value="low">Niedrig</option><option value="medium" selected>Mittel</option><option value="high">Hoch</option>
+            </select>
+          </div>
+          <div class="form-field">
+            <label for="ticketStatus">Status</label>
+            <select id="ticketStatus" name="status">
+              <option value="open">Offen</option><option value="in-progress">In Bearbeitung</option><option value="done">Erledigt</option><option value="reminder">Erinnerung</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row reminder-fields hidden" id="reminderFields">
+          <div class="form-field">
+            <label for="ticketReminderDate">Erinnerungsdatum <span>*</span></label>
+            <input id="ticketReminderDate" name="reminderDate" type="date">
+          </div>
+          <div class="form-field">
+            <label for="ticketReminderTime">Uhrzeit <span>*</span></label>
+            <input id="ticketReminderTime" name="reminderTime" type="time">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button class="button button-ghost" id="cancelModalButton" type="button">Abbrechen</button>
+          <button class="button button-primary" type="submit">Ticket speichern</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="toast hidden" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>

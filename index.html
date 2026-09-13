@@ -239,7 +239,10 @@
       <div class="chat-messages" id="chatMessages"></div>
       <form class="chat-composer" id="chatForm">
         <label class="sr-only" for="chatInput">Nachricht</label>
-        <textarea id="chatInput" rows="2" maxlength="1000" placeholder="Nachricht an die Ticket-Mitglieder schreiben..." required></textarea>
+        <div class="chat-input-wrap">
+          <textarea id="chatInput" rows="2" maxlength="1000" placeholder="Nachricht an die Ticket-Mitglieder schreiben..." required></textarea>
+          <div class="mention-menu hidden" id="mentionMenu" role="listbox" aria-label="Person zum Ticket hinzufügen"></div>
+        </div>
         <label class="chat-attachment" for="chatImage" title="Bild anhängen" aria-label="Bild anhängen">📎<input id="chatImage" type="file" accept="image/*"></label>
         <span class="chat-image-name" id="chatImageName"></span>
         <button class="button button-primary" type="submit">Senden</button>

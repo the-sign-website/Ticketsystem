@@ -163,7 +163,7 @@
   </div>
   <div class="modal-backdrop hidden" id="adminModal" role="dialog" aria-modal="true">
     <div class="modal"><div class="modal-header"><div><p class="eyebrow" id="adminModalEyebrow">Verwaltung</p><h2 id="adminModalTitle">Nutzer hinzufügen</h2></div><button class="icon-button" id="closeAdminModalButton" type="button" aria-label="Dialog schließen">×</button></div>
-      <form id="adminForm"><input id="adminEditId" type="hidden"><div class="form-field"><label for="adminName">Name</label><input id="adminName" required maxlength="40"></div><div class="form-field"><label for="adminUsername">Benutzername</label><input id="adminUsername" required maxlength="30"></div><div class="form-field admin-password-field"><label for="adminUserPassword">Passwort <span id="passwordLabelHint">(vorläufig für neue Nutzer)</span></label><input id="adminUserPassword" type="password" minlength="8"></div><div class="form-field team-only-field hidden"><label for="adminTeamMembers">Mitglieder</label><select id="adminTeamMembers" multiple></select></div><p class="form-error hidden" id="adminError"></p><div class="modal-actions"><button class="button button-ghost" id="cancelAdminModalButton" type="button">Abbrechen</button><button class="button button-primary" type="submit">Speichern</button></div></form>
+      <form id="adminForm"><input id="adminEditId" type="hidden"><div class="form-field"><label for="adminName">Name</label><input id="adminName" required maxlength="40"></div><div class="form-field"><label for="adminUsername">Benutzername</label><input id="adminUsername" required maxlength="30"></div><div class="form-field"><label for="adminEmail">E-Mail-Adresse</label><input id="adminEmail" type="email" autocomplete="email" required></div><div class="form-field admin-password-field"><label for="adminUserPassword">Passwort <span id="passwordLabelHint">(vorläufig für neue Nutzer)</span></label><input id="adminUserPassword" type="password" minlength="8"></div><div class="form-field team-only-field hidden"><label for="adminTeamMembers">Mitglieder</label><select id="adminTeamMembers" multiple></select></div><p class="form-error hidden" id="adminError"></p><div class="modal-actions"><button class="button button-ghost" id="cancelAdminModalButton" type="button">Abbrechen</button><button class="button button-primary" type="submit">Speichern</button></div></form>
     </div>
   </div>
 
@@ -227,6 +227,22 @@
           <button class="button button-ghost" id="cancelModalButton" type="button">Abbrechen</button>
           <button class="button button-primary" type="submit">Ticket speichern</button>
         </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-backdrop hidden" id="ticketChatModal" role="dialog" aria-modal="true" aria-labelledby="ticketChatTitle">
+    <div class="modal ticket-chat-modal">
+      <div class="modal-header">
+        <div><p class="eyebrow">Ticket-Chat</p><h2 id="ticketChatTitle">Ticket</h2><p class="ticket-chat-participants" id="ticketChatParticipants"></p></div>
+        <button class="icon-button" id="closeTicketChatButton" type="button" aria-label="Chat schließen">×</button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <form class="chat-composer" id="chatForm">
+        <label class="sr-only" for="chatInput">Nachricht</label>
+        <textarea id="chatInput" rows="2" maxlength="1000" placeholder="Nachricht an die Ticket-Mitglieder schreiben..." required></textarea>
+        <label class="chat-attachment" for="chatImage" title="Bild anhängen" aria-label="Bild anhängen">📎<input id="chatImage" type="file" accept="image/*"></label>
+        <span class="chat-image-name" id="chatImageName"></span>
+        <button class="button button-primary" type="submit">Senden</button>
       </form>
     </div>
   </div>

@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
+<html lang="de" data-theme="light"><head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Interne Tickets</title>
@@ -15,8 +13,8 @@
         <h1>Willkommen zurück</h1>
         <p class="auth-subtitle">Melde dich an, um auf deinen internen Ticket-Arbeitsbereich zuzugreifen.</p>
         <form id="loginForm">
-          <div class="form-field"><label for="loginUsername">Benutzername</label><input id="loginUsername" autocomplete="username" required></div>
-          <div class="form-field"><label for="loginPassword">Passwort</label><input id="loginPassword" type="password" autocomplete="current-password" required></div>
+          <div class="form-field"><label for="loginUsername">Benutzername</label><input id="loginUsername" autocomplete="username" required=""></div>
+          <div class="form-field"><label for="loginPassword">Passwort</label><input id="loginPassword" type="password" autocomplete="current-password" required=""></div>
           <p class="form-error hidden" id="loginError"></p>
           <button class="button button-primary auth-submit" type="submit">Anmelden</button>
         </form>
@@ -27,8 +25,8 @@
         <h1>Passwort festlegen</h1>
         <p class="auth-subtitle">Ersetze aus Sicherheitsgründen das vorläufige Admin-Passwort, bevor du fortfährst.</p>
         <form id="changePasswordForm">
-          <div class="form-field"><label for="newPassword">Neues Passwort</label><input id="newPassword" type="password" minlength="8" autocomplete="new-password" required><small class="field-hint">Verwende mindestens 8 Zeichen.</small></div>
-          <div class="form-field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required></div>
+          <div class="form-field"><label for="newPassword">Neues Passwort</label><input id="newPassword" type="password" minlength="8" autocomplete="new-password" required=""><small class="field-hint">Verwende mindestens 8 Zeichen.</small></div>
+          <div class="form-field"><label for="confirmPassword">Neues Passwort bestätigen</label><input id="confirmPassword" type="password" minlength="8" autocomplete="new-password" required=""></div>
           <p class="form-error hidden" id="passwordError"></p>
           <button class="button button-primary auth-submit" type="submit">Passwort speichern</button>
         </form>
@@ -46,10 +44,10 @@
       </div>
 
       <nav class="main-nav" aria-label="Hauptnavigation">
-        <button class="nav-item active" data-view="board"><span class="nav-icon">▦</span>Ticketübersicht</button>
-        <button class="nav-item" data-view="team"><span class="nav-icon">◉</span>Team</button>
-        <button class="nav-item admin-only" data-view="admin"><span class="nav-icon">⚙</span>Verwaltung</button>
-        <button class="nav-item" data-view="settings"><span class="nav-icon">⚙</span>Einstellungen</button>
+        <button class="nav-item active" data-view="board">Ticketübersicht</button>
+        <button class="nav-item" data-view="team">Team</button>
+        <button class="nav-item admin-only" data-view="admin">Verwaltung</button>
+        <button class="nav-item" data-view="settings">Einstellungen</button>
       </nav>
 
       <div class="sidebar-section">
@@ -59,7 +57,7 @@
           <span class="user-switcher-copy"><strong id="activeUserName">Admin</strong><small id="activeUserRole">Administrator</small></span>
           <span class="chevron">⌄</span>
         </button>
-        <div class="user-menu hidden" id="userMenu"></div>
+        <div class="user-menu hidden" id="userMenu"><button type="button" data-user-id="admin"><span class="avatar avatar-admin">A</span><span><strong>Admin</strong><small>Administrator</small></span></button><button type="button" data-user-id="user1"><span class="avatar avatar-blue">N1</span><span><strong>Nutzer 1</strong><small>Teammitglied</small></span></button><button type="button" data-user-id="user2"><span class="avatar avatar-orange">PE</span><span><strong>Paul Theo Eickmeyer</strong><small>Teammitglied</small></span></button></div>
         <button class="logout-button" id="logoutButton" type="button">Abmelden</button>
       </div>
 
@@ -72,7 +70,13 @@
     <main class="main-content">
       <header class="topbar">
         <div class="breadcrumbs"><span>Arbeitsbereich</span><span>/</span><strong id="pageTitle">Ticketübersicht</strong></div>
-        <button class="button button-primary" id="newTicketButton" type="button"><span>+</span> Neues Ticket</button>
+        <div class="topbar-actions">
+          <div class="notification-wrap">
+            <button class="notification-button" id="notificationButton" type="button" aria-label="Benachrichtigungen" aria-expanded="false">T<span class="notification-count hidden" id="notificationCount">0</span></button>
+            <div class="notification-menu hidden" id="notificationMenu"></div>
+          </div>
+          <button class="button button-primary" id="newTicketButton" type="button">+ Neues Ticket</button>
+        </div>
       </header>
 
       <section class="page-view" id="boardView">
@@ -83,12 +87,12 @@
             <p class="hero-subtitle">Verfolge Anfragen, verteile Zuständigkeiten und behalte den Überblick.</p>
           </div>
           <div class="date-card">
-            <span id="todayLabel"></span>
-            <strong id="todayDate"></strong>
+            <span id="todayLabel">Sonntag</span>
+            <strong id="todayDate">13. September 2026</strong>
           </div>
         </div>
 
-        <div class="stats-grid" id="statsGrid"></div>
+        <div class="stats-grid" id="statsGrid"><div class="stat-card"><div class="stat-card-top"><span>Offene Tickets</span><span class="stat-icon stat-blue">●</span></div><strong>1</strong></div><div class="stat-card"><div class="stat-card-top"><span>In Bearbeitung</span><span class="stat-icon stat-orange">◔</span></div><strong>1</strong></div><div class="stat-card"><div class="stat-card-top"><span>Erledigt</span><span class="stat-icon stat-green">✓</span></div><strong>1</strong></div><div class="stat-card"><div class="stat-card-top"><span>Hohe Priorität</span><span class="stat-icon stat-red">!</span></div><strong>1</strong></div></div>
 
         <div class="toolbar">
           <div class="search-box">
@@ -97,15 +101,11 @@
           </div>
           <div class="filter-group">
             <label for="assigneeFilter">Zugewiesen an</label>
-            <select id="assigneeFilter">
-              <option value="all">Alle</option>
-            </select>
+            <select id="assigneeFilter"><option value="all">Alle</option><option value="admin">Admin</option><option value="user1">Nutzer 1</option><option value="user2">Paul Theo Eickmeyer</option></select>
           </div>
           <div class="filter-group">
             <label for="categoryFilter">Kategorie</label>
-            <select id="categoryFilter">
-              <option value="all">Alle Kategorien</option>
-            </select>
+            <select id="categoryFilter"><option value="all">Alle Kategorien</option><option>Kunden</option><option>Sonstiges</option></select>
           </div>
           <div class="filter-group">
             <label for="statusFilter">Status</label>
@@ -121,12 +121,12 @@
 
         <div class="board-heading">
           <div>
-            <h2>Tickets <span class="count-pill" id="ticketCount">0</span></h2>
+            <h2>Tickets <span class="count-pill" id="ticketCount">3</span></h2>
             <p>Alles, woran dein Team gerade arbeitet.</p>
           </div>
           <button class="text-button" id="clearFiltersButton" type="button">Filter löschen</button>
         </div>
-        <div class="ticket-list" id="ticketList"></div>
+        <div class="ticket-list" id="ticketList"><article class="ticket-card" data-chat-id="TK-104" tabindex="0" role="button"><div><h3 class="ticket-title">Nächstes Teammeeting vorbereiten</h3><p class="ticket-description">Agenda-Punkte sammeln und die finale Agenda mit dem Team teilen.</p><div class="ticket-meta"><span class="badge badge-progress">In Bearbeitung</span><span class="badge badge-priority">Mittel · Priorität</span><span class="badge badge-priority">Sonstiges</span><span class="ticket-assignee"><span class="mini-avatar">N1</span>Nutzer 1</span></div></div><div class="ticket-actions"><button class="icon-button edit-ticket" data-id="TK-104" title="Ticket bearbeiten" aria-label="Ticket bearbeiten">✎</button><button class="icon-button delete-ticket" data-id="TK-104" title="Ticket löschen" aria-label="Ticket löschen">×</button></div></article><article class="ticket-card" data-chat-id="TK-103" tabindex="0" role="button"><div><h3 class="ticket-title">Bei neuer Kundenanfrage nachfassen</h3><p class="ticket-description">Die angefragten Preisinformationen senden und ein Erstgespräch vereinbaren.</p><div class="ticket-meta"><span class="badge badge-open">Offen</span><span class="badge badge-high">Hoch · Priorität</span><span class="badge badge-priority">Kunden</span><span class="ticket-assignee"><span class="mini-avatar">PE</span>Paul Theo Eickmeyer</span></div></div><div class="ticket-actions"><button class="icon-button edit-ticket" data-id="TK-103" title="Ticket bearbeiten" aria-label="Ticket bearbeiten">✎</button><button class="icon-button delete-ticket" data-id="TK-103" title="Ticket löschen" aria-label="Ticket löschen">×</button></div></article><article class="ticket-card" data-chat-id="TK-102" tabindex="0" role="button"><div><h3 class="ticket-title">Bürokosten für August abgleichen</h3><p class="ticket-description">Belege prüfen und die interne Ausgabenübersicht aktualisieren.</p><div class="ticket-meta"><span class="badge badge-done">Erledigt</span><span class="badge badge-priority">Niedrig · Priorität</span><span class="badge badge-priority">Sonstiges</span><span class="ticket-assignee"><span class="mini-avatar">A</span>Admin</span></div></div><div class="ticket-actions"><button class="icon-button edit-ticket" data-id="TK-102" title="Ticket bearbeiten" aria-label="Ticket bearbeiten">✎</button><button class="icon-button delete-ticket" data-id="TK-102" title="Ticket löschen" aria-label="Ticket löschen">×</button></div></article></div>
       </section>
 
       <section class="page-view hidden" id="teamView">
@@ -135,13 +135,13 @@
           <h1>Dein Team</h1>
           <p class="hero-subtitle">In diesem Arbeitsbereich sind interne Konten verfügbar.</p>
         </div>
-        <div class="team-grid" id="teamGrid"></div>
+        <div class="team-grid" id="teamGrid"><div class="team-card"><span class="avatar avatar-admin">A</span><h3>Admin</h3><p>Administrator</p><div class="team-stat"><strong>0</strong> aktive Aufgaben</div></div><div class="team-card"><span class="avatar avatar-blue">N1</span><h3>Nutzer 1</h3><p>Teammitglied</p><div class="team-stat"><strong>1</strong> aktive Aufgabe</div></div><div class="team-card"><span class="avatar avatar-orange">PE</span><h3>Paul Theo Eickmeyer</h3><p>Teammitglied</p><div class="team-stat"><strong>1</strong> aktive Aufgabe</div></div></div>
       </section>
       <section class="page-view hidden" id="adminView">
         <div class="team-heading"><p class="eyebrow">Administrator-Steuerung</p><h1>Arbeitsbereich verwalten</h1><p class="hero-subtitle">Verwalte Nutzer, Teams und Zugriffsrechte für deinen internen Arbeitsbereich.</p></div>
         <div class="admin-grid">
-          <div class="admin-panel"><div class="panel-heading"><div><h2>Nutzer</h2><p>Erstelle und verwalte Arbeitsbereich-Konten.</p></div><button class="button button-primary" id="newUserButton" type="button">+ Nutzer hinzufügen</button></div><div id="adminUsers"></div></div>
-          <div class="admin-panel"><div class="panel-heading"><div><h2>Teams & Gruppen</h2><p>Organisiere Nutzer in Arbeitsgruppen.</p></div><button class="button button-primary" id="newTeamButton" type="button">+ Team hinzufügen</button></div><div id="adminTeams"></div></div>
+          <div class="admin-panel"><div class="panel-heading"><div><h2>Nutzer</h2><p>Erstelle und verwalte Arbeitsbereich-Konten.</p></div><button class="button button-primary" id="newUserButton" type="button">+ Nutzer hinzufügen</button></div><div id="adminUsers"><div class="admin-row"><span class="avatar avatar-admin">A</span><div><strong>Admin</strong><small>@admin · Administrator</small></div><button class="icon-button edit-user" data-id="admin" aria-label="Nutzer bearbeiten">✎</button></div><div class="admin-row"><span class="avatar avatar-blue">N1</span><div><strong>Nutzer 1</strong><small>@user1 · Teammitglied</small></div><button class="icon-button edit-user" data-id="user1" aria-label="Nutzer bearbeiten">✎</button></div><div class="admin-row"><span class="avatar avatar-orange">PE</span><div><strong>Paul Theo Eickmeyer</strong><small>@user2 · Teammitglied</small></div><button class="icon-button edit-user" data-id="user2" aria-label="Nutzer bearbeiten">✎</button></div></div></div>
+          <div class="admin-panel"><div class="panel-heading"><div><h2>Teams &amp; Gruppen</h2><p>Organisiere Nutzer in Arbeitsgruppen.</p></div><button class="button button-primary" id="newTeamButton" type="button">+ Team hinzufügen</button></div><div id="adminTeams"><div class="admin-row"><span class="team-icon">♣</span><div><strong>Organisation</strong><small>3 Mitglieder</small></div><button class="icon-button edit-team" data-id="team-operations" aria-label="Team bearbeiten">✎</button></div></div></div>
         </div>
       </section>
       <section class="page-view hidden" id="settingsView">
@@ -155,7 +155,7 @@
           <div class="settings-panel">
             <div class="settings-icon">◐</div>
             <div class="settings-copy"><h2>Darstellung</h2><p>Wähle zwischen hellem und dunklem Modus.</p></div>
-            <div class="theme-switcher" role="group" aria-label="Darstellung"><button type="button" data-theme-choice="light">Hell</button><button type="button" data-theme-choice="dark">Dunkel</button></div>
+            <div class="theme-switcher" role="group" aria-label="Darstellung"><button type="button" data-theme-choice="light" class="active">Hell</button><button type="button" data-theme-choice="dark">Dunkel</button></div>
           </div>
         </div>
       </section>
@@ -163,7 +163,7 @@
   </div>
   <div class="modal-backdrop hidden" id="adminModal" role="dialog" aria-modal="true">
     <div class="modal"><div class="modal-header"><div><p class="eyebrow" id="adminModalEyebrow">Verwaltung</p><h2 id="adminModalTitle">Nutzer hinzufügen</h2></div><button class="icon-button" id="closeAdminModalButton" type="button" aria-label="Dialog schließen">×</button></div>
-      <form id="adminForm"><input id="adminEditId" type="hidden"><div class="form-field"><label for="adminName">Name</label><input id="adminName" required maxlength="40"></div><div class="form-field"><label for="adminUsername">Benutzername</label><input id="adminUsername" required maxlength="30"></div><div class="form-field"><label for="adminEmail">E-Mail-Adresse</label><input id="adminEmail" type="email" autocomplete="email" required></div><div class="form-field admin-password-field"><label for="adminUserPassword">Passwort <span id="passwordLabelHint">(vorläufig für neue Nutzer)</span></label><input id="adminUserPassword" type="password" minlength="8"></div><div class="form-field team-only-field hidden"><label for="adminTeamMembers">Mitglieder</label><select id="adminTeamMembers" multiple></select></div><p class="form-error hidden" id="adminError"></p><div class="modal-actions"><button class="button button-ghost" id="cancelAdminModalButton" type="button">Abbrechen</button><button class="button button-primary" type="submit">Speichern</button></div></form>
+      <form id="adminForm"><input id="adminEditId" type="hidden"><div class="form-field"><label for="adminName">Name</label><input id="adminName" required="" maxlength="40"></div><div class="form-field"><label for="adminUsername">Benutzername</label><input id="adminUsername" required="" maxlength="30"></div><div class="form-field"><label for="adminEmail">E-Mail-Adresse</label><input id="adminEmail" type="email" autocomplete="email" required=""></div><div class="form-field admin-password-field"><label for="adminUserPassword">Passwort <span id="passwordLabelHint">(vorläufig für neue Nutzer)</span></label><input id="adminUserPassword" type="password" minlength="8"></div><div class="form-field team-only-field hidden"><label for="adminTeamMembers">Mitglieder</label><select id="adminTeamMembers" multiple=""></select></div><p class="form-error hidden" id="adminError"></p><div class="modal-actions"><button class="button button-ghost" id="cancelAdminModalButton" type="button">Abbrechen</button><button class="button button-primary" type="submit">Speichern</button></div></form>
     </div>
   </div>
 
@@ -177,7 +177,7 @@
         <input id="ticketId" type="hidden">
         <div class="form-field">
           <label for="ticketTitle">Titel <span>*</span></label>
-          <input id="ticketTitle" name="title" type="text" maxlength="100" required placeholder="Was muss erledigt werden?">
+          <input id="ticketTitle" name="title" type="text" maxlength="100" required="" placeholder="Was muss erledigt werden?">
         </div>
         <div class="form-field">
           <label for="ticketDescription">Beschreibung</label>
@@ -186,11 +186,11 @@
         <div class="form-row">
           <div class="form-field">
             <label for="ticketTeam">Gruppe <span>*</span></label>
-            <select id="ticketTeam" name="teamId" required></select>
+            <select id="ticketTeam" name="teamId" required=""><option value="team-operations">Organisation</option></select>
           </div>
           <div class="form-field">
             <label for="ticketAssignee">Zuweisen an</label>
-            <select id="ticketAssignee" name="assignee"></select>
+            <select id="ticketAssignee" name="assignee"><option value="admin">Admin</option><option value="user1">Nutzer 1</option><option value="user2">Paul Theo Eickmeyer</option></select>
           </div>
         </div>
         <div class="form-row">
@@ -203,7 +203,7 @@
           <div class="form-field">
             <label for="ticketPriority">Priorität</label>
             <select id="ticketPriority" name="priority">
-              <option value="low">Niedrig</option><option value="medium" selected>Mittel</option><option value="high">Hoch</option>
+              <option value="low">Niedrig</option><option value="medium" selected="">Mittel</option><option value="high">Hoch</option>
             </select>
           </div>
           <div class="form-field">
@@ -240,7 +240,7 @@
       <form class="chat-composer" id="chatForm">
         <label class="sr-only" for="chatInput">Nachricht</label>
         <div class="chat-input-wrap">
-          <textarea id="chatInput" rows="2" maxlength="1000" placeholder="Nachricht an die Ticket-Mitglieder schreiben..." required></textarea>
+          <textarea id="chatInput" rows="2" maxlength="1000" placeholder="Nachricht an die Ticket-Mitglieder schreiben..." required=""></textarea>
           <div class="mention-menu hidden" id="mentionMenu" role="listbox" aria-label="Person zum Ticket hinzufügen"></div>
         </div>
         <label class="chat-attachment" for="chatImage" title="Bild anhängen" aria-label="Bild anhängen">📎<input id="chatImage" type="file" accept="image/*"></label>
@@ -251,5 +251,6 @@
   </div>
   <div class="toast hidden" id="toast" role="status"></div>
   <script src="app.js?v=20260913-loginfix2"></script>
-</body>
-</html>
+
+
+</body></html>
